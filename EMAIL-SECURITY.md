@@ -100,8 +100,24 @@ This repository intentionally excludes full message headers, subscriber informat
 
 Only sanitized technical findings are documented.
 
----
+## Namecheap Private Email Validation
+
+A test message was sent from the business mailbox using Namecheap Private Email to Gmail in November 2026.
+
+Authentication results:
+
+- SPF: PASS
+- DKIM: PASS
+- DMARC: PASS
+
+The root-domain SPF record was independently verified as:
+
+`v=spf1 include:spf.privateemail.com ~all`
+
+Both Mailchimp newsletters and Namecheap Private Email have now been tested successfully.
+
+**Conclusion:** The tested outbound email flows are authenticating successfully. DMARC remains in monitoring-only mode (`p=none`), with enforcement identified as a potential future security improvement.
 
 **Project:** Agent Harman Real Estate Website  
 **Assessment Date:** November 2026  
-**Status:** Newsletter authentication validated; additional DNS hardening review pending.
+**Status:** Newsletter authentication validated
