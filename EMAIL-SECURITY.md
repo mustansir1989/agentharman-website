@@ -19,16 +19,25 @@ The objective is to authenticate legitimate outbound email, support domain reput
 
 ### SPF — Sender Policy Framework
 
-A newsletter delivered through Mailchimp passed SPF authentication.
+The root domain's SPF record was independently verified using PowerShell:
 
-**Observed results:**
-- Sending IP: `198.2.142.67`
-- Envelope-sender domain: `mail67.atl261.mcdlv.net`
-- SPF result: PASS
+```text
+v=spf1 include:spf.privateemail.com ~all
+```
 
-The SPF check authenticated Mailchimp's envelope-sender domain, not `agentharman.com`.
+This record authorizes Namecheap Private Email infrastructure to send email for `agentharman.com`. The `~all` mechanism specifies a softfail for senders not otherwise authorized.
 
-An SPF record for the root domain was not identified in the reviewed Namecheap DNS records and requires separate verification.
+Mailchimp newsletters use a separate envelope-sender domain for SPF authentication.
+
+A delivered newsletter passed SPF using Mailchimp's envelope-sender domain, while aligned DKIM for `agentharman.com` satisfied DMARC.
+
+**Validation method:**
+
+```powershell
+Resolve-DnsName agentharman.com -Type TXT
+```
+
+**Result:** Root-domain SPF record confirmed. Mailchimp newsletter SPF authentication separately validated.
 
 ### DKIM — DomainKeys Identified Mail
 
